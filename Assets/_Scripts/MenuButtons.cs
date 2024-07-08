@@ -15,8 +15,18 @@ public class MenuButtons : MonoBehaviour
     [SerializeField] private Button _buttonShop;
     [SerializeField] private Animator _animatorCloseShop;
     [SerializeField] private Button _buttonCloseShop;
+    [SerializeField] private Animator _animatorDailyBonusClose;
+    [SerializeField] private Button _buttonDailyBonusClose;
+    [SerializeField] private Animator _animatorSettingsClose;
+    [SerializeField] private Button _buttonSettingsClose;
+    [SerializeField] private Animator _animatorSettingsOpen;
+    [SerializeField] private Button _buttonSettingsOpen;
+    [SerializeField] private Animator _animatorExitGame;
+    [SerializeField] private Button _buttonExitGame;
     [SerializeField] private GameObject _shopWindow;
     [SerializeField] private GameObject _mainMenuWindow;
+    [SerializeField] private GameObject _dailyBonusWindow;
+    [SerializeField] private GameObject _settingsWindow;
 
 
     void Start()
@@ -26,6 +36,10 @@ public class MenuButtons : MonoBehaviour
         _buttonCards.onClick.AddListener(SecretButton);
         _buttonShop.onClick.AddListener(OpenShopButton);
         _buttonCloseShop.onClick.AddListener(CloseShopButton);
+        _buttonDailyBonusClose.onClick.AddListener(CloseDailyBonusWindow);
+        _buttonSettingsClose.onClick.AddListener(CloseSettingsWindow);
+        _buttonSettingsOpen.onClick.AddListener(OpenSettingsButton);
+        _buttonExitGame.onClick.AddListener(ExitGame);
     }
 
     public void BananaButton()
@@ -53,6 +67,33 @@ public class MenuButtons : MonoBehaviour
         StartCoroutine(OpenNewWindow(_shopWindow, _mainMenuWindow, _animatorCloseShop));
     }
 
+    public void CloseDailyBonusWindow()
+    {
+        StartCoroutine(OpenNewWindow(_dailyBonusWindow, _mainMenuWindow, _animatorDailyBonusClose));
+    }
+
+    public void OpenSettingsButton()
+    {
+        StartCoroutine(OpenNewWindow(_mainMenuWindow, _settingsWindow, _animatorSettingsOpen));
+    }
+
+    public void CloseSettingsWindow()
+    {
+        StartCoroutine(OpenNewWindow(_settingsWindow, _mainMenuWindow, _animatorSettingsClose));
+    }
+
+    public void ExitGame()
+    {
+        StartCoroutine(ExitGameBtn());
+    }
+
+    private IEnumerator ExitGameBtn()
+    {
+        _animatorExitGame.SetTrigger("Pressed");
+        yield return new WaitForSeconds(0.5f);
+        Application.Quit();
+    }
+
     private IEnumerator OpenNewWindow(GameObject disabledWindow,GameObject enabledWindow, Animator animator)
     {
         animator.SetTrigger("Pressed");
@@ -66,5 +107,5 @@ public class MenuButtons : MonoBehaviour
         animator.SetTrigger("Pressed");
         yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene(sceneName);
-    }
+    } 
 }
